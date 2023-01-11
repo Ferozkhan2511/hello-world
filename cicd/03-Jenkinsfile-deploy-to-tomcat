@@ -1,8 +1,21 @@
 pipeline {
   agent any
-  tools {
-    maven 'maven-3.6.3' 
-  }
+  stages {
+        stage('Git code') {
+            steps {
+               git 'https://github.com/Michajira/ravdy-hello-world.git'
+            }
+        }
+        stage('build') {
+            steps {
+               bat "mvn clean install"
+               }
+               }
+                 stage('Test') {
+            steps {
+               bat "mvn test "
+               }
+               }
   stages {
     stage ('Build') {
       steps {
