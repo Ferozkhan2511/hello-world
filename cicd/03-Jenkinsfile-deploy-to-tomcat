@@ -1,20 +1,24 @@
-pipeline {
-  agent any
-  tools {
-    maven 'maven-3.6.3' 
-  }
-  stages {
-    stage ('Build') {
-      steps {
-        sh 'mvn clean package'
-      }
-    }
-    stage ('Deploy') {
-      steps {
-        script {
-          deploy adapters: [tomcat9(credentialsId: 'tomcat_credential', path: '', url: 'http://dayal-test.letspractice.tk:8081')], contextPath: '/pipeline', onFailure: false, war: 'webapp/target/*.war' 
-        }
-      }
-    }
-  }
+pipeline{
+       agent any
+       tools{
+       maven 'Maven'
+ 
+stages{
+   satge('Build'){
+steps{
+bat 'mvn clean package'
+}
+post{
+success{
+echo"Archiving the Artifacts"
+archiveArtifacts artifacts: '**/target/*.war'
+}
+}
+}
+stage('Depoly to tomcat server'){
+steps{
+deploy adapters: [tomcat8(credentialsId: '1380f6f8-60b7-4069-a4c8-c93d35bad5c5', path: '', url: 'http://localhost:9090/')], contextPath: '/test', war: '  **/*.war'
+}
+}
+}
 }
