@@ -22,4 +22,3 @@ deploy adapters: [tomcat8(credentialsId: '1380f6f8-60b7-4069-a4c8-c93d35bad5c5',
 }
 }
 }
-}
