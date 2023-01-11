@@ -1,10 +1,10 @@
-pipeline{
+Pipeline{
        agent any
        tools{
        maven 'Maven'
  
-stages{
-   satge('Build'){
+Stages{
+   Stage('Build'){
 steps{
 bat 'mvn clean package'
 }
@@ -15,8 +15,8 @@ archiveArtifacts artifacts: '**/target/*.war'
 }
 }
 }
-stage('Depoly to tomcat server'){
-steps{
+Stage('Depoly to tomcat server'){
+Steps{
 deploy adapters: [tomcat8(credentialsId: '1380f6f8-60b7-4069-a4c8-c93d35bad5c5', path: '', url: 'http://localhost:9090/')], contextPath: '/test', war: '  **/*.war'
 }
 }
