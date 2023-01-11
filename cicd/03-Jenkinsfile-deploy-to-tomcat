@@ -1,31 +1,18 @@
 pipeline {
   agent any
-  stages {
-        stage('Git code') {
-            steps {
-               git 'https://github.com/Michajira/ravdy-hello-world.git'
-            }
-        }
-        stage('build') {
-            steps {
-               bat "mvn clean install"
-               }
-               }
-                 stage('Test') {
-            steps {
-               bat "mvn test "
-               }
-               }
+  tools {
+    maven 'maven-3.6.3' 
+  }
   stages {
     stage ('Build') {
       steps {
-        bat 'mvn clean package'
+        sh 'mvn clean package'
       }
     }
     stage ('Deploy') {
       steps {
         script {
-          deploy adapters: [tomcat8(credentialsId: '1380f6f8-60b7-4069-a4c8-c93d35bad5c5', path: '', url: 'http://localhost:9090/ ')], contextPath: '/pipeline, onFailure: false, war: 'webapp/target/hello-world.war'  
+          deploy adapters: [tomcat9(credentialsId: 'tomcat_credential', path: '', url: 'http://dayal-test.letspractice.tk:8081')], contextPath: '/pipeline', onFailure: false, war: 'webapp/target/*.war' 
         }
       }
     }
